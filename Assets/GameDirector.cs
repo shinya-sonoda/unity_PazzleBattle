@@ -46,6 +46,8 @@ public class GameDirector : MonoBehaviour
     bool deleteFlag3 = false;
     bool deleteFlag4 = false;
 
+    int damageCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +81,7 @@ public class GameDirector : MonoBehaviour
                 this.delta += Time.deltaTime;
             }
             Debug.Log("ゲームオーバー");
+            this.aud.PlayOneShot(this.damageSE);
             this.obi1.transform.position = new Vector2(0, -0.5f);
             this.TextGameover1.GetComponent<Text>().text = "Gameover";
             this.TextGameover2.GetComponent<Text>().text = "⇒tap to restart";
@@ -115,11 +118,13 @@ public class GameDirector : MonoBehaviour
                 {
                     this.aud.PlayOneShot(this.attackSE);
                     this.blueLife -= damage;
+                    this.damageCount = 0;
                 }
                 else
                 {
                     this.aud.PlayOneShot(this.damageSE);
-                    this.myLife -= damage;
+                    this.damageCount++;
+                    this.myLife -= (damage * this.damageCount);
                 }
                 break;
             case 2:
@@ -127,11 +132,13 @@ public class GameDirector : MonoBehaviour
                 {
                     this.aud.PlayOneShot(this.attackSE);
                     this.redLife -= damage;
+                    this.damageCount = 0;
                 }
                 else
                 {
                     this.aud.PlayOneShot(this.damageSE);
-                    this.myLife -= damage;
+                    this.damageCount++;
+                    this.myLife -= (damage * this.damageCount);
                 }
                 break;
             case 3:
@@ -139,11 +146,13 @@ public class GameDirector : MonoBehaviour
                 {
                     this.aud.PlayOneShot(this.attackSE);
                     this.greenLife -= damage;
+                    this.damageCount = 0;
                 }
                 else
                 {
                     this.aud.PlayOneShot(this.damageSE);
-                    this.myLife -= damage;
+                    this.damageCount++;
+                    this.myLife -= (damage * this.damageCount);
                 }
                 break;
             case 4:
@@ -151,16 +160,19 @@ public class GameDirector : MonoBehaviour
                 {
                     this.aud.PlayOneShot(this.attackSE);
                     this.yellowLife -= damage;
+                    this.damageCount = 0;
                 }
                 else
                 {
                     this.aud.PlayOneShot(this.damageSE);
-                    this.myLife -= damage;
+                    this.damageCount++;
+                    this.myLife -= (damage * this.damageCount);
                 }
                 break;
             default:
                 this.aud.PlayOneShot(this.damageSE);
-                this.myLife -= damage;
+                this.damageCount++;
+                this.myLife -= (damage * this.damageCount);
                 break;
         }
         this.myHpGauge.GetComponent<Image>().fillAmount = this.myLife / this.myLifeMax;
